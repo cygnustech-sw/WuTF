@@ -1,0 +1,16 @@
+# PowerShell lint workflow for maintaining script quality
+name: PowerShell Lint
+
+on:
+  push:
+    paths:
+      - 'src/**/*.ps1'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: PowerShell/PowerShell@v1
+      - run: pwsh -Command "Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser"
+      - run: pwsh -Command "Invoke-ScriptAnalyzer -Path ./src -Recurse -Severity Warning"
